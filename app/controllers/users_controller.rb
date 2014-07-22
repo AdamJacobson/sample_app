@@ -12,10 +12,16 @@ class UsersController < ApplicationController
 	end
 	
   def new
+    # Logged in users do not need to create a new user
+    redirect_to(root_url) unless current_user.nil?
+    
   	@user = User.new
   end
 
   def create
+    # Logged in users do not need to create a new user
+    redirect_to(root_url) unless current_user.nil?
+
     @user = User.new(user_params)
     if @user.save
       sign_in @user

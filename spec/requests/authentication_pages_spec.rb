@@ -38,6 +38,14 @@ describe "Authentication" do
     describe "for non-signed-in users" do
       let(:user) { FactoryGirl.create(:user) }
 
+      describe "the application layout" do
+        before { visit root_path }
+        it { should_not have_link('Users',       href: users_path) }
+        it { should_not have_link('Profile',     href: user_path(user)) }
+        it { should_not have_link('Settings',    href: edit_user_path(user)) }
+        it { should_not have_link('Sign out',    href: signout_path) }
+      end
+
       describe "in the Users controller" do
 
         describe "visiting the user index" do
