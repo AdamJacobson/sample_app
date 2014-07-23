@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+	has_many :microposts, dependent: :destroy
+
 	## Callbacks ##
 	# Ensure that email is saved in lowercase
 	before_save { self.email.downcase! }
@@ -15,6 +17,11 @@ class User < ActiveRecord::Base
 	validates :password, length: { minimum: 6 }
 
 	has_secure_password
+
+	def feed
+    # This is preliminary. See "Following users" for the full implementation.
+    Micropost.where("user_id = ?", id)
+  end
 
 	def User.new_remember_token
     SecureRandom.urlsafe_base64
